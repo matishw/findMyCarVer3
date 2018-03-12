@@ -19,9 +19,15 @@
 
   </ion-navbar>
 </ion-header>
+<ion-card >
+    <ion-card-content >
+      <div>test</div>
+    </ion-card-content>
+</ion-card>
 
 <ion-content padding>
-<div #map style="height:100%;"></div>
+  <div id="map_canvas" style="height: 100vh;">
+  </div>
 </ion-content>
 
 <ion-footer>
@@ -41,7 +47,7 @@
         <img class="no-parking" *ngIf="parkingFound !=''" (click)="clearStorage()" src="assets/images/noParking.png">
       </div>
       <div style="width: 20%;">
-        <ion-icon name="ios-car" class="icon-savepark" (click)="saveParkingCar(null, true)"></ion-icon>
+        <ion-icon name="ios-car" class="icon-savepark" (click)="saveParkingCar()"></ion-icon>
       </div>
     </div>
 

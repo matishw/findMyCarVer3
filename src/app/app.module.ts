@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { NativeGeocoder} from '@ionic-native/native-geocoder';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { Geolocation } from '@ionic-native/geolocation';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation, NativeGeocoder
   ]
 })
 export class AppModule {}

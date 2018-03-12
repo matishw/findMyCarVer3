@@ -52,7 +52,10 @@ export class HomePage {
   addMarker() {
     this.map.addMarker({
       title: 'My Marker',
-      icon: 'blue',
+      //icon: 'assets/images/location_5.png',
+      icon: {
+        url: 'file:///android_asset/www/assets/images/location_5.png'
+    },
       animation: 'DROP',
       position: {
         lat: this.location.lat,

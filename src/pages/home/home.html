@@ -7,3 +7,27 @@
 <ion-content padding>
 <div #map style="height:100%;"></div>>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+
+    <div style="display: flex;">
+      <div style="width:20%;">
+        <ion-icon *ngIf="parkingFound !=''" name="ios-navigate-outline" (click)="navigateToYourCar()" class="icon-naviage"></ion-icon>
+      </div>
+      <div style="width: 20%;">
+        <ion-icon name="ios-camera" *ngIf="parkingFound !=''" (click)="openCamera()" class="icon-savepark"></ion-icon>
+      </div>
+      <div style="width: 20%;">
+        <ion-icon name="ios-create" *ngIf="parkingFound !=''" (click)="openModalSaveNotes()" class="icon-savepark"></ion-icon>
+      </div>
+      <div style="width: 20%;" >
+        <img class="no-parking" *ngIf="parkingFound !=''" (click)="clearStorage()" src="assets/images/noParking.png">
+      </div>
+      <div style="width: 20%;">
+        <ion-icon name="ios-car" class="icon-savepark" (click)="saveParkingCar(null, true)"></ion-icon>
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-footer>

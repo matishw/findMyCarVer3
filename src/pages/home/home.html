@@ -1,11 +1,27 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>
+      <div class="news">
+          <div class="news-world">
+              <div style="float: left;">
+                  Find My Car
+                </div>
+          </div>
+          <div class="news-local">
+              <div style="float: right;">
+                  <img src="assets/images/flash.png" (click)="openCloseFlash()" style="max-width:40px;" *ngIf="!isOpenFlash" />
+                  <img src="assets/images/flashOpen.png" style="max-width:40px;" *ngIf="isOpenFlash" (click)="openCloseFlash()" />
+                </div>
+          </div>
+        </div>
+
+    </ion-title>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-<div #map style="height:100%;"></div>>
+<div #map style="height:100%;"></div>
 </ion-content>
 
 <ion-footer>

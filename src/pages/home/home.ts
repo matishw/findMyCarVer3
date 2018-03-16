@@ -14,10 +14,10 @@ export class HomePage {
   private mapElement: ElementRef;
   private map: GoogleMap;
   private location: LatLng;
-  private locationPark :LatLng;
-  saveCarInfo: string;
+  private locationPark: LatLng;
+  saveCarInfo: string = null;
   dateParking: Date;
-  userLocation:any;
+  userLocation: any;
 
   carMarker: any;
   constructor(private platform: Platform, private googleMaps: GoogleMaps, private geolocation: Geolocation,
@@ -37,13 +37,13 @@ export class HomePage {
         let watch = this.geolocation.watchPosition();
         watch.subscribe((data) => {
 
-          
+
           this.location = new LatLng(data.coords.latitude, data.coords.longitude);
 
-          if(this.userLocation != undefined){
-            this.userLocation.setPosition({ lat: data.coords.latitude, lng: data.coords.longitude});
+          if (this.userLocation != undefined) {
+            this.userLocation.setPosition({ lat: data.coords.latitude, lng: data.coords.longitude });
           }
-          
+
 
           let counter = 0;
 
@@ -60,7 +60,7 @@ export class HomePage {
     });
   }
 
-  clearStorage(){
+  clearStorage() {
     let alert = this.alertCtrl.create({
       title: 'Delete last parking location!',
       subTitle: 'are you sure you want to delete your last parking location?',
@@ -77,7 +77,7 @@ export class HomePage {
           handler: () => {
             this.storage.clear();
             this.dateParking = null;
-            this.saveCarInfo =null;
+            this.saveCarInfo = null;
           }
         }
       ]
@@ -106,7 +106,7 @@ export class HomePage {
       .subscribe(() => {
         console.log('Map is ready!');
         this.findMyCar();
-        
+
         // Now you can use all methods safely.
         this.map.addMarker({
           title: '',
@@ -129,21 +129,21 @@ export class HomePage {
 
       });
 
-      
+
   }
 
-  findMyCar(){
+  findMyCar() {
 
     this.storage.get('latlng').then((latlngVal) => {
-       latlngVal = JSON.parse(latlngVal);
-       this.dateParking = latlngVal.time;
+      latlngVal = JSON.parse(latlngVal);
+      this.dateParking = latlngVal.time;
 
-       this.zone.run(() =>  this.saveCarInfo = latlngVal.adress);
+      this.zone.run(() => this.saveCarInfo = latlngVal.adress);
 
-       this.locationPark =   new LatLng(latlngVal.lat, latlngVal.lng);
+      this.locationPark = new LatLng(latlngVal.lat, latlngVal.lng);
       if (latlngVal !== undefined) {
-          console.log(latlngVal);
-          this.map.addMarker({
+        console.log(latlngVal);
+        this.map.addMarker({
           title: 'Ionic',
           icon: {
             url: 'file:///android_asset/www/assets/images/carAnother.png'
@@ -186,22 +186,55 @@ export class HomePage {
     })
       .then(marker => {
         marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-          alert('Marker Clicked');
+
         });
       });
   }
 
-  navigateToYourCar(){
-    
- 
-      var text = `http://maps.google.com/?saddr=${this.location.lat},${this.location.lng}&daddr=${this.locationPark.lat},${this.locationPark.lng}`;
-     
-      window.open(text, '_blank');
-   
+  navigateToYourCar() {
+
+
+    var text = `http://maps.google.com/?saddr=${this.location.lat},${this.location.lng}&daddr=${this.locationPark.lat},${this.locationPark.lng}`;
+
+    window.open(text, '_blank');
+
+  }
+
+  createModalAlert() {
+
+    let alert = this.alertCtrl.create({
+      title: 'Delete last parking location!',
+      subTitle: 'are you sure you want to delete your last parking location?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.storage.clear();
+            this.dateParking = null;
+            this.saveCarInfo = null;
+            this.saveParkingCar()
+          }
+        }
+      ]
+    });
+    alert.present();
+
+
   }
 
   saveParkingCar() {
-    console.log(this.carMarker);
+
+    if (this.saveCarInfo !== null) {
+      this.createModalAlert();
+    }
+
     if (this.carMarker !== undefined) {
       this.carMarker.remove();
     }
@@ -209,7 +242,7 @@ export class HomePage {
     this.nativeGeocoder.reverseGeocode(this.location.lat, this.location.lng)
       .then((result: NativeGeocoderReverseResult) => {
 
-       
+
 
         this.locationPark = new LatLng(this.location.lat, this.location.lng);
 
@@ -217,15 +250,14 @@ export class HomePage {
 
         this.dateParking = new Date();
         this.saveCarInfo = "";
-        this.saveCarInfo = json["locality"] === undefined ? null : json["locality"] + " " ;
+        this.saveCarInfo = json["locality"] === undefined ? null : json["locality"] + " ";
         this.saveCarInfo += json["thoroughfare"] === undefined ? null : json["thoroughfare"] + " ";
-        this.saveCarInfo +=  json["subThoroughfare"] === undefined ? null : json["subThoroughfare"];
-        
-     
-        alert(this.saveCarInfo);
-        this.zone.run(() =>   this.saveCarInfo );
+        this.saveCarInfo += json["subThoroughfare"] === undefined ? null : json["subThoroughfare"];
 
-       ;
+
+
+        this.zone.run(() => this.saveCarInfo);
+
         console.log(this.dateParking);
 
         // Now you can use all methods safely.
@@ -233,7 +265,7 @@ export class HomePage {
 
 
         this.map.addMarker({
-          title: 'Ionic',
+          title: 'Location of my car',
           icon: {
             url: 'file:///android_asset/www/assets/images/carAnother.png'
           },
@@ -245,10 +277,11 @@ export class HomePage {
         })
           .then(marker => {
             this.carMarker = marker;
+            /*
             marker.on(GoogleMapsEvent.MARKER_CLICK)
               .subscribe(() => {
                 alert('clicked');
-              });
+              });*/
           });
 
         var latLng =

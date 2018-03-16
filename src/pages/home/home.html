@@ -20,12 +20,12 @@
     </ion-title>
     <ion-card>
         <ion-card-content >
-          <div *ngIf="dateParking ===null">
+          <div *ngIf="saveCarInfo ===null">
               Click on the
               <ion-icon name="ios-car" (click)="saveParkingCar()" class=""></ion-icon> to save the Location
           </div>
 
-          <div *ngIf="dateParking !==null">
+          <div *ngIf="saveCarInfo !==null">
             <div>{{dateParking| date:'medium'}}</div>
             <div>{{saveCarInfo}}</div>
         </div>
@@ -38,7 +38,7 @@
 
 <ion-content padding>
  
-  <div id="map_canvas" style="height: 64vh; margin-top: 3rem;">
+  <div id="map_canvas" style="height: 62vh;">
   </div>
 </ion-content>
 
@@ -47,16 +47,16 @@
 
     <div style="display: flex;">
       <div style="width:20%;">
-        <ion-icon *ngIf="saveCarInfo !=''" name="ios-navigate-outline" (click)="navigateToYourCar()" class="icon-naviage"></ion-icon>
+        <ion-icon *ngIf="saveCarInfo !=null" name="ios-navigate-outline" (click)="navigateToYourCar()" class="icon-naviage"></ion-icon>
       </div>
       <div style="width: 20%;">
-        <ion-icon name="ios-camera" *ngIf="saveCarInfo !=''" (click)="openCamera()" class="icon-savepark"></ion-icon>
+        <ion-icon name="ios-camera" *ngIf="saveCarInfo !=null" (click)="openCamera()" class="icon-savepark"></ion-icon>
       </div>
       <div style="width: 20%;">
-        <ion-icon name="ios-create" *ngIf="saveCarInfo !=''" (click)="openModalSaveNotes()" class="icon-savepark"></ion-icon>
+        <ion-icon name="ios-create" *ngIf="saveCarInfo !=null" (click)="openModalSaveNotes()" class="icon-savepark"></ion-icon>
       </div>
       <div style="width: 20%;" >
-        <img class="no-parking" *ngIf="saveCarInfo !=''" (click)="clearStorage()" src="assets/images/noParking.png">
+        <img class="no-parking" *ngIf="saveCarInfo !=null" (click)="clearStorage()" src="assets/images/noParking.png">
       </div>
       <div style="width: 20%;">
         <ion-icon name="ios-car" class="icon-savepark" (click)="saveParkingCar()"></ion-icon>

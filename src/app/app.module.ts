@@ -14,6 +14,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { IonicStorageModule } from '@ionic/storage';
+import { Flashlight } from '@ionic-native/flashlight';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation, NativeGeocoder
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation, NativeGeocoder, Flashlight
   ]
 })
 export class AppModule {}

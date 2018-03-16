@@ -4,6 +4,7 @@ import { GoogleMaps, GoogleMap, LatLng, GoogleMapsEvent, GoogleMapOptions } from
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { Storage } from '@ionic/storage';
+import { Flashlight } from '@ionic-native/flashlight';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -18,10 +19,11 @@ export class HomePage {
   saveCarInfo: string = null;
   dateParking: Date;
   userLocation: any;
+   isOpenFlash:boolean =false;
 
   carMarker: any;
   constructor(private platform: Platform, private googleMaps: GoogleMaps, private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder, private storage: Storage, private alertCtrl: AlertController, public zone: NgZone) {
+    private nativeGeocoder: NativeGeocoder, private storage: Storage, private alertCtrl: AlertController, public zone: NgZone, private flashlight:Flashlight) {
     this.location = new LatLng(42.346903, -71.135101);
   }
 
@@ -58,6 +60,21 @@ export class HomePage {
 
 
     });
+  }
+
+  openCloseFlash() {
+
+    if (!this.flashlight.isSwitchedOn()) {
+      this.flashlight.switchOn();
+      this.isOpenFlash = true;
+    }
+    else {
+      this.flashlight.switchOff();
+      this.isOpenFlash = false;
+    }
+
+
+
   }
 
   clearStorage() {
@@ -109,7 +126,7 @@ export class HomePage {
 
         // Now you can use all methods safely.
         this.map.addMarker({
-          title: '',
+          title: 'My car location',
           icon: {
             url: 'file:///android_asset/www/assets/images/location_5.png'
           },
@@ -123,6 +140,7 @@ export class HomePage {
             this.userLocation = marker;
             marker.on(GoogleMapsEvent.MARKER_CLICK)
               .subscribe(() => {
+
                 //alert('clicked');
               });
           });
@@ -144,7 +162,7 @@ export class HomePage {
       if (latlngVal !== undefined) {
         console.log(latlngVal);
         this.map.addMarker({
-          title: 'Ionic',
+          title: 'My location',
           icon: {
             url: 'file:///android_asset/www/assets/images/carAnother.png'
           },
@@ -156,10 +174,10 @@ export class HomePage {
         })
           .then(marker => {
             this.carMarker = marker;
-            marker.on(GoogleMapsEvent.MARKER_CLICK)
+           /* marker.on(GoogleMapsEvent.MARKER_CLICK)
               .subscribe(() => {
                 //alert('clicked');
-              });
+              });*/
           });
 
 

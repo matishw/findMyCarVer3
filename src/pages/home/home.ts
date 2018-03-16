@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { Storage } from '@ionic/storage';
 import { Flashlight } from '@ionic-native/flashlight';
+import { Diagnostic } from '@ionic-native/diagnostic';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -23,7 +24,8 @@ export class HomePage {
 
   carMarker: any;
   constructor(private platform: Platform, private googleMaps: GoogleMaps, private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder, private storage: Storage, private alertCtrl: AlertController, public zone: NgZone, private flashlight:Flashlight) {
+    private nativeGeocoder: NativeGeocoder, private storage: Storage, private alertCtrl: AlertController,
+     public zone: NgZone, private flashlight:Flashlight, private diagnostic: Diagnostic) {
     this.location = new LatLng(42.346903, -71.135101);
   }
 
@@ -31,6 +33,21 @@ export class HomePage {
     //this.createMap();
 
     this.platform.ready().then(() => {
+
+      
+      this.diagnostic.isGpsLocationAvailable()
+      .then((state) => {
+      
+        if (state){
+          // do something
+          alert("great");
+        } else {
+          // do something else
+          alert("avaiable it!")
+        }
+      }).catch(e => alert("not enable "+ e ));
+
+
 
       this.geolocation.getCurrentPosition().then((resp) => {
         this.location = new LatLng(resp.coords.latitude, resp.coords.longitude);

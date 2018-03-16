@@ -94,4 +94,6 @@
     <plugin name="cordova-plugin-flashlight" spec="^3.2.0" />
     <plugin name="cordova.plugins.diagnostic" spec="^4.0.3" />
     <engine name="android" spec="~7.0.0" />
+    <plugin name="cordova-open-native-settings" spec="^1.5.0" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
 </widget>

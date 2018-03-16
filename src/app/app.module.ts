@@ -16,6 +16,8 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder';
 import { IonicStorageModule } from '@ionic/storage';
 import { Flashlight } from '@ionic-native/flashlight';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation, NativeGeocoder, Flashlight, Diagnostic
+    {provide: ErrorHandler, useClass: IonicErrorHandler}, GoogleMaps, Geolocation, NativeGeocoder, Flashlight, Diagnostic, OpenNativeSettings, Camera
   ]
 })
 export class AppModule {}

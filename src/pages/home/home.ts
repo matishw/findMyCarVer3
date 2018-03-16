@@ -6,6 +6,8 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResul
 import { Storage } from '@ionic/storage';
 import { Flashlight } from '@ionic-native/flashlight';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -20,12 +22,13 @@ export class HomePage {
   saveCarInfo: string = null;
   dateParking: Date;
   userLocation: any;
-   isOpenFlash:boolean =false;
+  isOpenFlash: boolean = false;
+  cameraImage: string;
 
   carMarker: any;
   constructor(private platform: Platform, private googleMaps: GoogleMaps, private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder, private storage: Storage, private alertCtrl: AlertController,
-     public zone: NgZone, private flashlight:Flashlight, private diagnostic: Diagnostic) {
+    public zone: NgZone, private flashlight: Flashlight, private diagnostic: Diagnostic, private openNativeSettings: OpenNativeSettings, private camera: Camera) {
     this.location = new LatLng(42.346903, -71.135101);
   }
 
@@ -34,18 +37,18 @@ export class HomePage {
 
     this.platform.ready().then(() => {
 
-      
+
       this.diagnostic.isGpsLocationAvailable()
-      .then((state) => {
-      
-        if (state){
-          // do something
-          alert("great");
-        } else {
-          // do something else
-          alert("avaiable it!")
-        }
-      }).catch(e => alert("not enable "+ e ));
+        .then((state) => {
+
+          if (state) {
+            // do something
+
+          } else {
+            // do something else
+            this.openNativeSettings.open("location");
+          }
+        }).catch(e => alert("not enable " + e));
 
 
 
@@ -97,7 +100,7 @@ export class HomePage {
   clearStorage() {
     let alert = this.alertCtrl.create({
       title: 'Delete last parking location!',
-      subTitle: 'are you sure you want to delete your last parking location?',
+      subTitle: 'Are you sure you want to delete your last parking location?',
       buttons: [
         {
           text: 'Cancel',
@@ -110,6 +113,7 @@ export class HomePage {
           text: 'Yes',
           handler: () => {
             this.storage.clear();
+            this.carMarker.remove();
             this.dateParking = null;
             this.saveCarInfo = null;
           }
@@ -167,6 +171,62 @@ export class HomePage {
 
   }
 
+
+  openCamera() {
+    console.log(this.cameraImage);
+    if (this.cameraImage === null || this.cameraImage === undefined) {
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+      console.log(options);
+      this.camera.getPicture(options).then((imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64:
+        console.log("test");
+        let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.cameraImage = base64Image;
+        //this.saveParkingCar({ "cameraPic": this.cameraImage }, false);
+
+      }, (err) => {
+        console.log(err);
+        // Handle error
+      });
+    }
+    else{
+
+
+
+      
+      let alert = this.alertCtrl.create({
+        title: 'Car Parking Image!',
+        subTitle: '<img src="' + this.cameraImage + '" style="max-width:100%;" class="picImage">',
+        buttons: [
+          {
+            text: 'Dismiss',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Save a new picture',
+            handler: () => {
+              this.cameraImage =  null;
+              this.openCamera();
+            }
+          }
+        ]
+      });
+      alert.present();
+
+    }
+
+
+  }
+
   findMyCar() {
 
     this.storage.get('latlng').then((latlngVal) => {
@@ -191,10 +251,10 @@ export class HomePage {
         })
           .then(marker => {
             this.carMarker = marker;
-           /* marker.on(GoogleMapsEvent.MARKER_CLICK)
-              .subscribe(() => {
-                //alert('clicked');
-              });*/
+            /* marker.on(GoogleMapsEvent.MARKER_CLICK)
+               .subscribe(() => {
+                 //alert('clicked');
+               });*/
           });
 
 

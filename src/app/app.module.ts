@@ -18,6 +18,7 @@ import { Flashlight } from '@ionic-native/flashlight';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { NoteModalPage } from '../pages/note-modal/note-modal';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage, NoteModalPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage, NoteModalPage
   ],
   providers: [
     StatusBar,

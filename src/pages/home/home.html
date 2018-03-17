@@ -2,42 +2,52 @@
   <ion-navbar>
     <ion-title>
       <div class="news">
-          <div class="news-world">
-              <div style="float: left;">
-                  Find My Car
-
-                  test : {{location.lat}}  {{location.lng}}
-                </div>
-          </div>
-          <div class="news-local">
-              <div style="float: right;">
-                  <img src="assets/images/flash.png" (click)="openCloseFlash()" style="max-width:40px;" *ngIf="!isOpenFlash" />
-                  <img src="assets/images/flashOpen.png" style="max-width:40px;" *ngIf="isOpenFlash" (click)="openCloseFlash()" />
-                </div>
+        <div class="news-world">
+          <div style="float: left;">
+            Find My Car
           </div>
         </div>
+        <div class="news-local">
+          <div style="float: right;">
+            <img src="assets/images/flash.png" (click)="openCloseFlash()" style="max-width:40px;" *ngIf="!isOpenFlash" />
+            <img src="assets/images/flashOpen.png" style="max-width:40px;" *ngIf="isOpenFlash" (click)="openCloseFlash()" />
+          </div>
+        </div>
+      </div>
 
     </ion-title>
-    <ion-card>
-        <ion-card-content >
-          <div *ngIf="saveCarInfo ===null">
-              Click on the
-              <ion-icon name="ios-car" (click)="saveParkingCar()" class=""></ion-icon> to save the Location
-          </div>
-
-          <div *ngIf="saveCarInfo !==null">
-            <div>{{dateParking| date:'medium'}}</div>
-            <div>{{saveCarInfo}}</div>
+    <ion-card >
+      <ion-card-content>
+        <div *ngIf="saveCarInfo ===null">
+          Click on the
+          <ion-icon name="ios-car" (click)="saveParkingCar()" class=""></ion-icon> to save the Location
         </div>
-        </ion-card-content>
+
+        <div *ngIf="saveCarInfo !==null">
+          <div style="display: flex;font-size: 1rem">
+            <div style="margin-right: 0.6rem;font-size: 1rem">
+              <img style="width: 39px;" src="assets/images/parkingImage.png">
+            </div>
+            <div>
+              <div>{{dateParking| date:'medium'}}</div>
+              <div>{{saveCarInfo}}</div>
+              <hr>
+              <div>
+                Click on the
+                <ion-icon name="ios-navigate-outline" (click)="navigateToYourCar()" class=""></ion-icon> to navigate to your car
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
     </ion-card>
   </ion-navbar>
- 
+
 </ion-header>
 
 
 <ion-content padding>
- 
+
   <div id="map_canvas" style="height: 62vh;">
   </div>
 </ion-content>
@@ -50,18 +60,22 @@
         <ion-icon *ngIf="saveCarInfo !==null" name="ios-navigate-outline" (click)="navigateToYourCar()" class="icon-naviage"></ion-icon>
       </div>
       <div style="width: 20%;">
+        <ion-icon ios="ios-checkmark" md="md-checkmark" *ngIf="cameraImage !==null" style="position: absolute;left: 12rem;color: green;"></ion-icon>
         <ion-icon name="ios-camera" *ngIf="saveCarInfo !==null" (click)="openCamera()" class="icon-savepark"></ion-icon>
       </div>
       <div style="width: 20%;">
+        <ion-icon ios="ios-checkmark" md="md-checkmark" *ngIf="noteInfo !==null" style="position: absolute;left: 18rem;color: green;z-index: 1000"></ion-icon>
         <ion-icon name="ios-create" *ngIf="saveCarInfo !==null" (click)="openModalSaveNotes()" class="icon-savepark"></ion-icon>
       </div>
-      <div style="width: 20%;" >
+      <div style="width: 20%;">
         <img class="no-parking" *ngIf="saveCarInfo !==null" (click)="clearStorage()" src="assets/images/noParking.png">
       </div>
       <div style="width: 20%;">
         <ion-icon name="ios-car" class="icon-savepark" (click)="saveParkingCar()"></ion-icon>
       </div>
     </div>
+
+
 
   </ion-toolbar>
 </ion-footer>

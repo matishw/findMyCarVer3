@@ -3,7 +3,8 @@ page-home {
 }
 
 .picImage{
-    transform: rotate(90deg)
+    transform: rotate(90deg);
+    margin-top: 10px;
 }
 
 .news {
@@ -22,4 +23,10 @@ page-home {
   .news-world div,
   .news-local div {
 
+  }
+
+
+  #map_canvas{
+    margin-top: 24px !important;
+    height: 62vh !important;
   }
